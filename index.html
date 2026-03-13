@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekend Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#FAF9F7;
+  --card:#FFFFFF;
+  --glass:rgba(255,255,255,.65);
+  --glass-b:rgba(255,255,255,.35);
+  --tx:#1A1A2E;
+  --t2:#64648C;
+  --t3:#A5A5C0;
+  --t4:#D0D0E0;
+  --bd:rgba(0,0,0,.04);
+
+  --peach:#FFB088;--peach-l:#FFF2EB;
+  --lav:#B8A9F0;--lav-l:#F0EDFF;
+  --mint:#7DDDB5;--mint-l:#E5FBF2;
+  --sky:#7EB8F7;--sky-l:#E8F2FF;
+  --rose:#F7A0B8;--rose-l:#FFF0F4;
+  --sun:#FFD07B;--sun-l:#FFF8EA;
+
+  --g1:linear-gradient(135deg,#FFE0CC 0%,#E8D5FF 50%,#CCE8FF 100%);
+  --g2:linear-gradient(135deg,#E8D5FF 0%,#FFD6E8 50%,#FFE8CC 100%);
+  --g3:linear-gradient(135deg,#FFD6E8 0%,#FFE0CC 50%,#E5FBF2 100%);
+
+  --r:24px;--rs:18px;--rx:12px;
+  --sh:0 2px 8px rgba(26,26,46,.04),0 12px 40px rgba(26,26,46,.04);
+  --shh:0 8px 32px rgba(26,26,46,.08),0 24px 60px rgba(26,26,46,.06);
+  --sh-c:0 4px 20px rgba(184,169,240,.15);
+}
+
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+
+a{text-decoration:none;color:inherit}
+
+/* ====== HERO ====== */
+.hero{padding:3.5rem 1.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-150px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse at 30% 50%,rgba(255,176,136,.12) 0%,transparent 50%),radial-gradient(ellipse at 70% 50%,rgba(184,169,240,.1) 0%,transparent 50%);pointer-events:none;animation:heroGlow 8s ease-in-out infinite alternate}
+@keyframes heroGlow{0%{opacity:.8;transform:translateX(-50%) scale(1)}100%{opacity:1;transform:translateX(-50%) scale(1.05)}}
+
+.pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--glass);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.6);padding:.3rem .8rem;border-radius:50px;font-size:.6rem;font-weight:700;color:var(--t2);letter-spacing:.08em;text-transform:uppercase;position:relative;box-shadow:0 2px 12px rgba(0,0,0,.03)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+.hero h1{font-family:'Outfit',sans-serif;font-size:3rem;font-weight:900;letter-spacing:-.06em;margin:.8rem 0 .3rem;position:relative;background:linear-gradient(135deg,var(--tx) 0%,#3D3D6B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero .sub{color:var(--t2);font-size:.88rem;font-weight:400;position:relative}
+.hero .date-pill{display:inline-flex;align-items:center;gap:.4rem;background:var(--glass);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.5);padding:.38rem 1rem;border-radius:50px;margin-top:.8rem;font-size:.72rem;font-weight:500;color:var(--t3);box-shadow:0 2px 12px rgba(0,0,0,.02);position:relative}
+
+.ctn{max-width:660px;margin:0 auto;padding:0 1.5rem 3rem}
+
+/* ====== WEATHER ====== */
+.weather{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem;margin:.6rem 0 2rem}
+.w{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:.7rem .5rem;text-align:center;box-shadow:var(--sh);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.w:hover{transform:translateY(-4px);box-shadow:var(--shh)}
+.w .w-label{font-family:'Outfit';font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.1rem}
+.w:nth-child(1) .w-label{color:var(--sky)}.w:nth-child(2) .w-label{color:var(--lav)}.w:nth-child(3) .w-label{color:var(--rose)}
+.w .w-icon{font-size:1.3rem;margin:.05rem 0}.w .w-temp{font-family:'Outfit';font-size:1.15rem;font-weight:800}
+.w .w-detail{font-size:.6rem;color:var(--t3)}.w .w-city{font-size:.52rem;color:var(--t4);margin-top:.1rem}
+
+/* ====== DAY CARDS ====== */
+.days{display:flex;flex-direction:column;gap:.6rem}
+.day{
+  border-radius:var(--r);padding:1.1rem 1.15rem;cursor:pointer;position:relative;overflow:hidden;
+  border:1px solid rgba(255,255,255,.5);box-shadow:var(--sh);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+}
+.day:hover{transform:translateY(-4px);box-shadow:var(--shh)}
+.day:active{transform:translateY(-2px)}
+.day.d1{background:var(--g1)}.day.d2{background:var(--g2)}.day.d3{background:var(--g3)}
+
+.day-top{display:flex;align-items:center;gap:.6rem}
+.day-circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(255,255,255,.5);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.6);font-family:'Outfit';font-size:.72rem;font-weight:800;color:var(--tx)}
+.day-text{flex:1}
+.day-text h2{font-family:'Outfit';font-size:.95rem;font-weight:800;letter-spacing:-.02em}
+.day-text p{font-size:.7rem;color:var(--t2);font-weight:400}
+.day-go{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.5);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.5);flex-shrink:0;font-size:.65rem;color:var(--t2);transition:transform .25s}
+.day:hover .day-go{transform:translateX(3px)}
+
+.day-chips{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.55rem}
+.chip{font-size:.55rem;font-weight:600;padding:.12rem .45rem;border-radius:50px;background:rgba(255,255,255,.5);color:var(--t2);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.4);letter-spacing:.01em}
+
+/* ====== IDEAS ====== */
+.sec-h{font-family:'Outfit';font-size:.95rem;font-weight:800;letter-spacing:-.02em;margin:2rem 0 .55rem}
+.ideas{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:.5rem}
+.idea{background:var(--card);border:1px solid var(--bd);border-radius:var(--rs);padding:.65rem;box-shadow:var(--sh);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.idea:hover{transform:translateY(-3px);box-shadow:var(--shh)}
+.idea-h{font-family:'Outfit';font-weight:700;font-size:.75rem;margin-bottom:.04rem}
+.idea-d{font-size:.64rem;color:var(--t2);line-height:1.4}
+.idea-tag{display:inline-block;font-size:.5rem;font-weight:700;padding:.1rem .35rem;border-radius:50px;margin-top:.25rem;letter-spacing:.03em;text-transform:uppercase}
+.idea-tag.f{background:var(--sky-l);color:var(--sky)}.idea-tag.s{background:var(--lav-l);color:var(--lav)}.idea-tag.u{background:var(--rose-l);color:var(--rose)}.idea-tag.a{background:var(--sun-l);color:#C9A44E}
+
+/* ====== TODOS ====== */
+.todos{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:.9rem;margin-top:1.8rem;box-shadow:var(--sh)}
+.todos h3{font-family:'Outfit';font-size:.82rem;font-weight:800;margin-bottom:.35rem}
+.todo{display:flex;justify-content:space-between;align-items:center;padding:.32rem 0;border-bottom:1px solid rgba(0,0,0,.03);font-size:.72rem}
+.todo:last-child{border-bottom:none}.todo .tl{color:var(--t2)}.todo .tv{font-family:'Outfit';font-weight:700;font-size:.68rem;color:var(--tx)}
+
+.footer{text-align:center;padding:1.2rem 1rem;color:var(--t4);font-size:.58rem;margin-top:1.2rem}
+
+/* ====== OVERLAY ====== */
+.ov{position:fixed;top:0;left:0;width:100%;height:100%;z-index:100;opacity:0;pointer-events:none;transition:opacity .35s}
+.ov.open{opacity:1;pointer-events:auto}
+.ov-shade{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(26,26,46,.18);backdrop-filter:blur(12px)}
+.ov-slide{position:absolute;top:0;right:0;width:100%;max-width:520px;height:100%;overflow-y:auto;transform:translateX(100%);transition:transform .45s cubic-bezier(.32,.72,.32,1);box-shadow:-12px 0 48px rgba(26,26,46,.06)}
+.ov.open .ov-slide{transform:translateX(0)}
+
+/* Overlay background gradients per day */
+.ov-slide.ov-fri{background:linear-gradient(180deg,#E8F2FF 0%,#F0EDFF 30%,#FAF9F7 60%,#FAF9F7 100%)}
+.ov-slide.ov-sat{background:linear-gradient(180deg,#F0EDFF 0%,#FFF0F4 30%,#FAF9F7 60%,#FAF9F7 100%)}
+.ov-slide.ov-sun{background:linear-gradient(180deg,#FFF0F4 0%,#FFF2EB 30%,#FAF9F7 60%,#FAF9F7 100%)}
+
+/* Overlay header with gradient */
+.ov-head{position:sticky;top:0;z-index:10;padding:.85rem 1rem;display:flex;align-items:center;gap:.6rem;border-bottom:1px solid rgba(255,255,255,.5)}
+.ov-head.head-fri{background:linear-gradient(135deg,rgba(126,184,247,.12),rgba(184,169,240,.1));backdrop-filter:blur(20px)}
+.ov-head.head-sat{background:linear-gradient(135deg,rgba(184,169,240,.12),rgba(247,160,184,.1));backdrop-filter:blur(20px)}
+.ov-head.head-sun{background:linear-gradient(135deg,rgba(247,160,184,.12),rgba(255,176,136,.1));backdrop-filter:blur(20px)}
+
+.ov-back{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.6);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;font-weight:700;color:var(--t2);flex-shrink:0;transition:all .25s;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.ov-back:hover{background:rgba(255,255,255,.9);transform:scale(1.08)}
+.ov-h-title{font-family:'Outfit';font-size:.92rem;font-weight:800}
+.ov-h-sub{font-size:.65rem;color:var(--t3)}
+
+.ov-body{padding:1rem}
+
+/* ====== TIMELINE ====== */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:13px;top:22px;bottom:22px;width:2px;border-radius:2px}
+.timeline.tl-fri::before{background:linear-gradient(180deg,var(--sky),var(--lav),var(--peach))}
+.timeline.tl-sat::before{background:linear-gradient(180deg,var(--lav),var(--rose),var(--sun))}
+.timeline.tl-sun::before{background:linear-gradient(180deg,var(--rose),var(--peach),var(--mint))}
+
+/* ====== STOPS ====== */
+.stop{position:relative;margin-bottom:.55rem;border-radius:var(--rs);overflow:hidden;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.stop:hover{transform:translateY(-2px)}
+
+/* Stop card backgrounds per day */
+.fri-s{background:linear-gradient(135deg,rgba(232,242,255,.5) 0%,rgba(240,237,255,.4) 100%);border:1px solid rgba(126,184,247,.12);box-shadow:0 2px 12px rgba(126,184,247,.06),0 8px 24px rgba(184,169,240,.04)}
+.fri-s:hover{box-shadow:0 4px 20px rgba(126,184,247,.12),0 12px 36px rgba(184,169,240,.08)}
+
+.sat-s{background:linear-gradient(135deg,rgba(240,237,255,.5) 0%,rgba(255,240,244,.4) 100%);border:1px solid rgba(184,169,240,.12);box-shadow:0 2px 12px rgba(184,169,240,.06),0 8px 24px rgba(247,160,184,.04)}
+.sat-s:hover{box-shadow:0 4px 20px rgba(184,169,240,.12),0 12px 36px rgba(247,160,184,.08)}
+
+.sun-s{background:linear-gradient(135deg,rgba(255,240,244,.5) 0%,rgba(255,242,235,.4) 100%);border:1px solid rgba(247,160,184,.12);box-shadow:0 2px 12px rgba(247,160,184,.06),0 8px 24px rgba(255,176,136,.04)}
+.sun-s:hover{box-shadow:0 4px 20px rgba(247,160,184,.12),0 12px 36px rgba(255,176,136,.08)}
+
+.s-head{display:flex;align-items:center;gap:.5rem;padding:.7rem .85rem;cursor:pointer;transition:background .15s}
+.s-head:hover{background:rgba(255,255,255,.3)}
+
+.s-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Outfit';font-size:.62rem;font-weight:800;flex-shrink:0;color:#fff;position:relative;z-index:2}
+.fri-s .s-num{background:linear-gradient(135deg,var(--sky),var(--lav));box-shadow:0 3px 10px rgba(126,184,247,.3)}
+.sat-s .s-num{background:linear-gradient(135deg,var(--lav),var(--rose));box-shadow:0 3px 10px rgba(184,169,240,.3)}
+.sun-s .s-num{background:linear-gradient(135deg,var(--rose),var(--peach));box-shadow:0 3px 10px rgba(247,160,184,.3)}
+
+/* Timeline dot on the left */
+.stop::before{content:'';position:absolute;left:-21px;top:18px;width:8px;height:8px;border-radius:50%;border:2px solid #fff;z-index:2}
+.fri-s::before{background:var(--sky);box-shadow:0 0 0 3px rgba(126,184,247,.15)}
+.sat-s::before{background:var(--lav);box-shadow:0 0 0 3px rgba(184,169,240,.15)}
+.sun-s::before{background:var(--rose);box-shadow:0 0 0 3px rgba(247,160,184,.15)}
+
+.s-info{flex:1}
+.s-info h3{font-family:'Outfit';font-size:.8rem;font-weight:700;letter-spacing:-.01em}
+.s-info .s-time{font-size:.62rem;color:var(--t3);font-weight:500}
+
+.s-chev{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.5);font-size:.5rem;color:var(--t3);flex-shrink:0;transition:all .3s;backdrop-filter:blur(4px)}
+.stop.open .s-chev{transform:rotate(180deg);color:#fff}
+.fri-s.open .s-chev{background:linear-gradient(135deg,var(--sky),var(--lav))}
+.sat-s.open .s-chev{background:linear-gradient(135deg,var(--lav),var(--rose))}
+.sun-s.open .s-chev{background:linear-gradient(135deg,var(--rose),var(--peach))}
+
+.s-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.stop.open .s-body{max-height:500px}
+.s-content{padding:.15rem .85rem .8rem}
+.s-content p{font-size:.72rem;color:var(--t2);line-height:1.6;margin-bottom:.4rem}
+
+.tag{display:inline-flex;align-items:center;gap:.15rem;font-size:.58rem;font-weight:600;padding:.15rem .45rem;border-radius:50px;margin-right:.2rem;margin-bottom:.2rem;backdrop-filter:blur(4px)}
+.tag-loc{background:linear-gradient(135deg,rgba(125,221,181,.15),rgba(125,221,181,.08));color:#3BAB85;border:1px solid rgba(125,221,181,.15)}
+.tag-ride{background:linear-gradient(135deg,rgba(255,208,123,.15),rgba(255,208,123,.08));color:#B8922B;border:1px solid rgba(255,208,123,.15)}
+.tag-cost{background:linear-gradient(135deg,rgba(184,169,240,.15),rgba(184,169,240,.08));color:#7B6BC4;border:1px solid rgba(184,169,240,.15)}
+.tag-time{background:linear-gradient(135deg,rgba(126,184,247,.15),rgba(126,184,247,.08));color:#5A9BE0;border:1px solid rgba(126,184,247,.15)}
+.tag-warn{background:linear-gradient(135deg,rgba(247,160,184,.15),rgba(247,160,184,.08));color:#D4708A;border:1px solid rgba(247,160,184,.15)}
+
+.maps{display:inline-flex;align-items:center;gap:.2rem;font-size:.62rem;font-weight:600;color:#7B6BC4;padding:.15rem .5rem;border-radius:50px;background:linear-gradient(135deg,rgba(184,169,240,.12),rgba(126,184,247,.08));border:1px solid rgba(184,169,240,.12);transition:all .25s;margin-top:.2rem;margin-right:.3rem}
+.maps:hover{background:linear-gradient(135deg,rgba(184,169,240,.22),rgba(126,184,247,.15));transform:translateY(-2px);box-shadow:0 4px 12px rgba(184,169,240,.15)}
+
+.alert-box{display:flex;align-items:flex-start;gap:.45rem;background:linear-gradient(135deg,rgba(255,208,123,.12),rgba(255,176,136,.08));border:1px solid rgba(255,208,123,.15);border-radius:var(--rs);padding:.6rem .8rem;margin-bottom:.7rem;font-size:.7rem;color:#8B7028;backdrop-filter:blur(4px)}
+
+.info-box{background:linear-gradient(135deg,rgba(240,237,255,.4),rgba(255,240,244,.3));border:1px solid rgba(184,169,240,.1);border-left:3px solid;border-image:linear-gradient(180deg,var(--lav),var(--rose)) 1;border-radius:var(--r);padding:.8rem;margin:.6rem 0;box-shadow:0 4px 16px rgba(184,169,240,.06)}
+.info-box h3{font-family:'Outfit';font-size:.76rem;font-weight:800;margin-bottom:.25rem;background:linear-gradient(135deg,var(--lav),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.info-box li{font-size:.68rem;color:var(--t2);line-height:1.55}
+.info-box a{color:#7B6BC4;font-weight:600}
+.info-box ul{list-style:none;margin-top:.2rem}
+.info-box ul li{padding:.1rem 0 .1rem .75rem;position:relative}
+.info-box ul li::before{content:'';position:absolute;left:0;top:.45rem;width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--lav),var(--rose))}
+
+/* Day summary banner at top of overlay */
+.day-banner{display:flex;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap}
+.day-banner .db-item{display:flex;align-items:center;gap:.25rem;font-size:.6rem;font-weight:600;padding:.25rem .55rem;border-radius:50px;backdrop-filter:blur(6px)}
+.db-item.db-time{background:linear-gradient(135deg,rgba(126,184,247,.15),rgba(126,184,247,.06));color:#5A9BE0;border:1px solid rgba(126,184,247,.12)}
+.db-item.db-cost{background:linear-gradient(135deg,rgba(184,169,240,.15),rgba(184,169,240,.06));color:#7B6BC4;border:1px solid rgba(184,169,240,.12)}
+.db-item.db-stops{background:linear-gradient(135deg,rgba(125,221,181,.15),rgba(125,221,181,.06));color:#3BAB85;border:1px solid rgba(125,221,181,.12)}
+.db-item.db-highlight{background:linear-gradient(135deg,rgba(255,208,123,.15),rgba(255,208,123,.06));color:#B8922B;border:1px solid rgba(255,208,123,.12)}
+
+.main-wrap{min-height:100vh;transition:filter .3s}.main-wrap.blur{filter:blur(8px) saturate(.7);pointer-events:none}
+
+@media(max-width:550px){.ov-slide{max-width:100%}.ideas{grid-template-columns:repeat(2,1fr)}.ctn{padding:0 1rem 2rem}.hero h1{font-size:2.2rem}.timeline{padding-left:24px}.stop::before{left:-17px}}
+</style>
+</head>
+<body>
+
+<div class="main-wrap" id="mw">
+<div class="hero">
+  <div class="pill"><span class="dot"></span> Trip confirmed</div>
+  <h1>weekend plan</h1>
+  <p class="sub">a friend from the Netherlands visiting Bavaria</p>
+  <div class="date-pill">fri 13 &ndash; sun 15 march 2026</div>
+</div>
+
+<div class="ctn">
+  <div class="weather">
+    <div class="w"><div class="w-label">Friday</div><div class="w-icon">&#9728;&#65039;</div><div class="w-temp">16&deg;</div><div class="w-detail">Low 1&deg; &middot; Sunny</div><div class="w-city">Munich</div></div>
+    <div class="w"><div class="w-label">Saturday</div><div class="w-icon">&#127783;&#65039;</div><div class="w-temp">6&deg;</div><div class="w-detail">Low 3&deg; &middot; Rain PM</div><div class="w-city">Regensburg</div></div>
+    <div class="w"><div class="w-label">Sunday</div><div class="w-icon">&#9925;</div><div class="w-temp">10&deg;</div><div class="w-detail">Low -1&deg; &middot; Cloudy</div><div class="w-city">Regensburg</div></div>
+  </div>
+
+  <div class="days">
+    <div class="day d1" onclick="openDay('fri')">
+      <div class="day-top">
+        <div class="day-circle">FRI</div>
+        <div class="day-text"><h2>Munich Day</h2><p>Airport &rarr; Lunch &rarr; Englischer Garten &rarr; BMW</p></div>
+        <div class="day-go">&rarr;</div>
+      </div>
+      <div class="day-chips">
+        <span class="chip">Arrival 12:10</span><span class="chip">Dean &amp; David</span><span class="chip">Eisbach Surfers</span><span class="chip">BMW Museum</span>
+      </div>
+    </div>
+    <div class="day d2" onclick="openDay('sat')">
+      <div class="day-top">
+        <div class="day-circle">SAT</div>
+        <div class="day-text"><h2>Padel &amp; Caf&eacute;</h2><p>Sport, coffee &amp; plan the Paris trip</p></div>
+        <div class="day-go">&rarr;</div>
+      </div>
+      <div class="day-chips">
+        <span class="chip">PadelCity Indoor</span><span class="chip">Caf&eacute; &amp; Paris planning</span><span class="chip">Rain PM</span>
+      </div>
+    </div>
+    <div class="day d3" onclick="openDay('sun')">
+      <div class="day-top">
+        <div class="day-circle">SUN</div>
+        <div class="day-text"><h2>Last Morning</h2><p>Brunch &amp; goodbye</p></div>
+        <div class="day-go">&rarr;</div>
+      </div>
+      <div class="day-chips">
+        <span class="chip">Brunch</span><span class="chip">Flight 14:00</span><span class="chip">Leave ~11:45</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-h">more ideas</div>
+  <div class="ideas">
+    <div class="idea"><div class="idea-h">Pub Crawl</div><div class="idea-d">Germany's highest pub density.</div><span class="idea-tag s">sat eve</span></div>
+    <div class="idea"><div class="idea-h">Bowling</div><div class="idea-d">Indoor when it rains.</div><span class="idea-tag s">saturday</span></div>
+    <div class="idea"><div class="idea-h">Game Night</div><div class="idea-d">Board games or Mario Kart.</div><span class="idea-tag s">sat eve</span></div>
+    <div class="idea"><div class="idea-h">Thermal Spa</div><div class="idea-d">Kaiser Therme, 20 min.</div><span class="idea-tag s">saturday</span></div>
+    <div class="idea"><div class="idea-h">Cook-off NL vs DE</div><div class="idea-d">Bitterballen vs Obazda!</div><span class="idea-tag s">sat eve</span></div>
+    <div class="idea"><div class="idea-h">Walhalla Temple</div><div class="idea-d">Danube panorama, 12 km.</div><span class="idea-tag a">flexible</span></div>
+    <div class="idea"><div class="idea-h">Cinema</div><div class="idea-d">Regina Filmtheater.</div><span class="idea-tag s">saturday</span></div>
+    <div class="idea"><div class="idea-h">Rock Cellars</div><div class="idea-d">500-yr beer cellars.</div><span class="idea-tag a">flexible</span></div>
+    <div class="idea"><div class="idea-h">Danube Walk</div><div class="idea-d">Stone Bridge, riverside.</div><span class="idea-tag u">sunday</span></div>
+    <div class="idea"><div class="idea-h">Sunday Brunch</div><div class="idea-d">Caf&eacute; before goodbye.</div><span class="idea-tag u">sunday</span></div>
+  </div>
+
+  <div class="todos">
+    <h3>to-do's before the weekend</h3>
+    <div class="todo"><span class="tl">Book Padel (PadelCity App)</span><span class="tv">Sat ~10:30</span></div>
+    <div class="todo"><span class="tl">Install MVV App</span><span class="tv">Day ticket</span></div>
+    <div class="todo"><span class="tl">Pack an umbrella</span><span class="tv">Saturday</span></div>
+    <div class="todo"><span class="tl">Laptop for Paris planning</span><span class="tv">Sat caf&eacute;</span></div>
+    <div class="todo"><span class="tl">Friday &mdash; leave by</span><span class="tv">10:15</span></div>
+    <div class="todo"><span class="tl">Sunday &mdash; leave by</span><span class="tv">11:45</span></div>
+  </div>
+</div>
+<div class="footer">have the best weekend &middot; updated 12 march 2026</div>
+</div>
+
+<!-- ========== FRIDAY ========== -->
+<div class="ov" id="ov-fri">
+<div class="ov-shade" onclick="closeDay()"></div>
+<div class="ov-slide ov-fri">
+<div class="ov-head head-fri"><div class="ov-back" onclick="closeDay()">&larr;</div><div><div class="ov-h-title" style="background:linear-gradient(135deg,var(--sky),var(--lav));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Friday &mdash; Munich Day</div><div class="ov-h-sub">13 March &middot; 16&deg;C &middot; Sunny all day</div></div></div>
+<div class="ov-body">
+
+<div class="day-banner">
+  <span class="db-item db-stops">10 stops</span>
+  <span class="db-item db-time">10:15 &ndash; 19:30</span>
+  <span class="db-item db-cost">~30&euro; per person</span>
+  <span class="db-item db-highlight">16&deg;C sunny</span>
+</div>
+
+<div class="timeline tl-fri">
+
+<div class="stop fri-s" id="f1"><div class="s-head" onclick="ts('f1')"><div class="s-num">1</div><div class="s-info"><h3>Leave Regensburg</h3><div class="s-time">~10:15</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Drive to Munich Airport via A9. Leave early &mdash; traffic jams are always possible. About 1.5 hours.</p>
+<span class="tag tag-time">~1.5 h drive</span>
+<br><a class="maps" href="https://www.google.com/maps/dir/Regensburg/Munich+Airport" target="_blank">route in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop fri-s" id="f2"><div class="s-head" onclick="ts('f2')"><div class="s-num">2</div><div class="s-info"><h3>Arrive at Munich Airport</h3><div class="s-time">12:10</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Landing at 12:10. Wait at the pickup area &mdash; first 10 min of short-term parking are free.</p>
+<span class="tag tag-loc">Munich Airport (MUC)</span>
+<br><a class="maps" href="https://www.google.com/maps/place/Munich+Airport" target="_blank">open in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop fri-s" id="f3"><div class="s-head" onclick="ts('f3')"><div class="s-num">3</div><div class="s-info"><h3>Drive to P+R Fr&ouml;ttmaning</h3><div class="s-time">~12:30</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>~20 min via A9 south. Huge Park+Ride directly at the U6 station. License plate recognition &mdash; just drive in.</p>
+<span class="tag tag-loc">P+R Fr&ouml;ttmaning</span><span class="tag tag-cost">1.50&euro;/day</span><span class="tag tag-time">~20 min</span>
+<br><a class="maps" href="https://www.google.com/maps/place/P%2BR+Fr%C3%B6ttmaning,+Werner-Heisenberg-Allee,+M%C3%BCnchen" target="_blank">open in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop fri-s" id="f4"><div class="s-head" onclick="ts('f4')"><div class="s-num">4</div><div class="s-info"><h3>U6 to M&uuml;nchner Freiheit</h3><div class="s-time">~13:00</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Buy an MVV day ticket Zone M at the machine or in the app. 15 min to M&uuml;nchner Freiheit.</p>
+<span class="tag tag-ride">U6 &rarr; M. Freiheit &middot; 15 min</span><span class="tag tag-cost">10.10&euro;/person</span>
+</div></div></div>
+
+<div class="stop fri-s" id="f5"><div class="s-head" onclick="ts('f5')"><div class="s-num">5</div><div class="s-info"><h3>Lunch at Dean &amp; David</h3><div class="s-time">~13:20 &ndash; 14:15</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Fresh bowls, salads and wraps. 2 min walk from the metro. With 16&deg;C and sunshine &mdash; sit outside on Leopoldstra&szlig;e!</p>
+<span class="tag tag-loc">Leopoldstr. 52, Schwabing</span><span class="tag tag-cost">~8&ndash;14&euro;/bowl</span>
+<br><a class="maps" href="https://www.google.com/maps/place/dean%26david,+Leopoldstra%C3%9Fe+52,+80802+M%C3%BCnchen" target="_blank">open in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop fri-s" id="f6"><div class="s-head" onclick="ts('f6')"><div class="s-num">6</div><div class="s-info"><h3>Walk through Englischer Garten</h3><div class="s-time">~14:15 &ndash; 15:15</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>The entrance is 3 min from Dean &amp; David. Walk south to the Eisbach wave &mdash; Munich's famous river surfers! Then head to the Monopteros viewpoint for a city panorama.</p>
+<span class="tag tag-loc">Englischer Garten</span><span class="tag tag-cost">Free</span><span class="tag tag-time">~1 h stroll</span>
+<br><a class="maps" href="https://www.google.com/maps/place/Eisbachwelle,+Prinzregentenstra%C3%9Fe,+M%C3%BCnchen" target="_blank">eisbach surfers &rarr;</a>
+<a class="maps" href="https://www.google.com/maps/place/Monopteros,+M%C3%BCnchen" target="_blank">monopteros &rarr;</a>
+</div></div></div>
+
+<div class="stop fri-s" id="f7"><div class="s-head" onclick="ts('f7')"><div class="s-num">7</div><div class="s-info"><h3>Metro to BMW Museum</h3><div class="s-time">~15:15</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Walk to M&uuml;nchner Freiheit or Universit&auml;t station. U3/U6 to Olympiazentrum &mdash; 2-3 stops, ~5 min.</p>
+<span class="tag tag-ride">U3 &rarr; Olympiazentrum &middot; 5 min</span>
+</div></div></div>
+
+<div class="stop fri-s" id="f8"><div class="s-head" onclick="ts('f8')"><div class="s-num">8</div><div class="s-info"><h3>BMW Welt &amp; Museum</h3><div class="s-time">~15:30 &ndash; 17:30</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Start with BMW Welt (free!) &mdash; stunning architecture and current models. Then the museum next door. Last entry 17:30. Card payment only!</p>
+<span class="tag tag-loc">Am Olympiapark 2</span><span class="tag tag-cost">Welt free &middot; Museum 17&euro;</span><span class="tag tag-time">Tue&ndash;Sun 10&ndash;18h</span>
+<br><a class="maps" href="https://www.google.com/maps/place/BMW+Museum,+Am+Olympiapark+2,+80809+M%C3%BCnchen" target="_blank">open in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop fri-s" id="f9"><div class="s-head" onclick="ts('f9')"><div class="s-num">9</div><div class="s-info"><h3>Back to the car</h3><div class="s-time">~17:45</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>U3 Olympiazentrum &rarr; M&uuml;nchner Freiheit, switch U6 &rarr; Fr&ouml;ttmaning. ~20 min.</p>
+<span class="tag tag-ride">U3 + U6 &rarr; Fr&ouml;ttmaning &middot; 20 min</span>
+</div></div></div>
+
+<div class="stop fri-s" id="f10"><div class="s-head" onclick="ts('f10')"><div class="s-num">10</div><div class="s-info"><h3>Drive home</h3><div class="s-time">~18:00 &ndash; 19:30</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>A9 north from Fr&ouml;ttmaning. ~1.5 h. Home by 19:30 &mdash; relax and enjoy the evening!</p>
+<span class="tag tag-time">~1.5 h drive</span>
+</div></div></div>
+
+</div><!-- /timeline -->
+</div></div></div>
+
+<!-- ========== SATURDAY ========== -->
+<div class="ov" id="ov-sat">
+<div class="ov-shade" onclick="closeDay()"></div>
+<div class="ov-slide ov-sat">
+<div class="ov-head head-sat"><div class="ov-back" onclick="closeDay()">&larr;</div><div><div class="ov-h-title" style="background:linear-gradient(135deg,var(--lav),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Saturday &mdash; Padel &amp; Caf&eacute;</div><div class="ov-h-sub">14 March &middot; 6&deg;C &middot; Rain from afternoon</div></div></div>
+<div class="ov-body">
+
+<div class="alert-box"><span>&#9888;</span><span><strong>Weather tip:</strong> Rain from afternoon. Book Padel for the morning (indoor!) &mdash; afternoon is cozy caf&eacute; time.</span></div>
+
+<div class="day-banner">
+  <span class="db-item db-stops">5 stops</span>
+  <span class="db-item db-time">09:00 &ndash; evening</span>
+  <span class="db-item db-cost">~17&euro; per person</span>
+  <span class="db-item db-highlight">indoor day</span>
+</div>
+
+<div class="timeline tl-sat">
+
+<div class="stop sat-s" id="s1"><div class="s-head" onclick="ts('s1')"><div class="s-num">1</div><div class="s-info"><h3>Relaxed breakfast</h3><div class="s-time">~09:00 &ndash; 10:00</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Take it easy. Fresh rolls from the bakery or cook together before it gets sporty.</p>
+</div></div></div>
+
+<div class="stop sat-s" id="s2"><div class="s-head" onclick="ts('s2')"><div class="s-num">2</div><div class="s-info"><h3>Padel at PadelCity</h3><div class="s-time">~10:30 &ndash; 12:30</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Bavaria's biggest padel facility &mdash; 5 indoor courts, perfect for rain. Book via the PadelCity app.</p>
+<span class="tag tag-loc">Ernst-Frenzel-Str. 14</span><span class="tag tag-cost">Indoor 28&euro;/court</span><span class="tag tag-warn">Racket 3&euro;</span>
+<br><a class="maps" href="https://www.google.com/maps/place/PadelCity+Regensburg,+Ernst-Frenzel-Stra%C3%9Fe+14,+Regensburg" target="_blank">open in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop sat-s" id="s3"><div class="s-head" onclick="ts('s3')"><div class="s-num">3</div><div class="s-info"><h3>Lunch</h3><div class="s-time">~13:00 &ndash; 14:00</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Grab something nice after the match. Near PadelCity or head to the old town.</p>
+</div></div></div>
+
+<div class="stop sat-s" id="s4"><div class="s-head" onclick="ts('s4')"><div class="s-num">4</div><div class="s-info"><h3>Caf&eacute; &mdash; Plan Paris Trip</h3><div class="s-time">~14:30 &ndash; 16:30</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Raining outside &mdash; perfect caf&eacute; weather! Bring your laptop and plan flights, hotels and activities for Paris together.</p>
+<span class="tag tag-warn">Bring laptop!</span>
+</div></div></div>
+
+<div class="stop sat-s" id="s5"><div class="s-head" onclick="ts('s5')"><div class="s-num">5</div><div class="s-info"><h3>Evening plans</h3><div class="s-time">Evening</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Cook together, pub crawl, game night or cinema &mdash; check the ideas on the main page!</p>
+</div></div></div>
+
+</div><!-- /timeline -->
+
+<div class="info-box">
+<h3>PadelCity Regensburg</h3>
+<ul>
+<li>10 courts (5 indoor, 5 outdoor)</li>
+<li>Indoor from 28&euro;/court &middot; Outdoor from 24&euro;</li>
+<li>Racket rental: 3&euro; each</li>
+<li>Open daily 8&ndash;23h</li>
+<li>Book: <a href="https://padelcity.de/en/app/" target="_blank">PadelCity App</a></li>
+</ul>
+</div>
+
+</div></div></div>
+
+<!-- ========== SUNDAY ========== -->
+<div class="ov" id="ov-sun">
+<div class="ov-shade" onclick="closeDay()"></div>
+<div class="ov-slide ov-sun">
+<div class="ov-head head-sun"><div class="ov-back" onclick="closeDay()">&larr;</div><div><div class="ov-h-title" style="background:linear-gradient(135deg,var(--rose),var(--peach));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Sunday &mdash; Last Morning</div><div class="ov-h-sub">15 March &middot; 10&deg;C &middot; Flight at 14:00</div></div></div>
+<div class="ov-body">
+
+<div class="day-banner">
+  <span class="db-item db-stops">4 stops</span>
+  <span class="db-item db-time">09:00 &ndash; 14:00</span>
+  <span class="db-item db-highlight">departure day</span>
+</div>
+
+<div class="timeline tl-sun">
+
+<div class="stop sun-s" id="u1"><div class="s-head" onclick="ts('u1')"><div class="s-num">1</div><div class="s-info"><h3>Sleep in &amp; brunch</h3><div class="s-time">~09:00 &ndash; 10:00</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Enjoy the last morning. Fresh rolls from the bakery or cook breakfast together.</p>
+</div></div></div>
+
+<div class="stop sun-s" id="u2"><div class="s-head" onclick="ts('u2')"><div class="s-num">2</div><div class="s-info"><h3>Last activity</h3><div class="s-time">~10:00 &ndash; 11:30</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Walk along the Danube, hang out one more time &mdash; or pick from the ideas on the main page!</p>
+<a class="maps" href="https://www.google.com/maps/place/Steinerne+Br%C3%BCcke,+Regensburg" target="_blank">stone bridge in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop sun-s" id="u3"><div class="s-head" onclick="ts('u3')"><div class="s-num">3</div><div class="s-info"><h3>Head to the airport</h3><div class="s-time">~11:45</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Leave enough buffer! ~1.5 h to Munich Airport. A9 can be busy on Sundays.</p>
+<span class="tag tag-time">~1.5 h drive</span><span class="tag tag-warn">A9 busy Sundays!</span>
+<br><a class="maps" href="https://www.google.com/maps/dir/Regensburg/Munich+Airport" target="_blank">route in maps &rarr;</a>
+</div></div></div>
+
+<div class="stop sun-s" id="u4"><div class="s-head" onclick="ts('u4')"><div class="s-num">4</div><div class="s-info"><h3>Departure</h3><div class="s-time">14:00</div></div><div class="s-chev">&#9660;</div></div><div class="s-body"><div class="s-content">
+<p>Goodbye &amp; see you next time! Start the Paris countdown!</p>
+</div></div></div>
+
+</div><!-- /timeline -->
+</div></div></div>
+
+<script>
+function openDay(d){document.getElementById('mw').classList.add('blur');document.getElementById('ov-'+d).classList.add('open');document.body.style.overflow='hidden'}
+function closeDay(){document.querySelectorAll('.ov').forEach(o=>o.classList.remove('open'));document.getElementById('mw').classList.remove('blur');document.body.style.overflow=''}
+function ts(id){document.getElementById(id).classList.toggle('open')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDay()})
+</script>
+</body>
+</html>
